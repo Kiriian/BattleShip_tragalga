@@ -20,8 +20,8 @@ public class SingleMatchExample
 {
     public static void main(String[] args)
     {
-        BattleshipsPlayer player1 = new SystematicShotPlayer();
-        BattleshipsPlayer player2 = new OurPlayer2();
+        BattleshipsPlayer player1 = new OurPlayer2();
+        BattleshipsPlayer player2 = new SystematicShotPlayer();
         GameInstance<BattleshipsPlayer> game = Battleships.getSingleGameInstance();
         GameResult res = game.run(player1, player2);
         System.out.println("Result: ");

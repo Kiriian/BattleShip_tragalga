@@ -66,7 +66,6 @@ public class OurPlayer2 implements battleship.interfaces.BattleshipsPlayer {
                 int x = rnd.nextInt(sizeX - (s.size() - 1));
                 int y = rnd.nextInt(sizeY);
                 pos = new Position(x, y);
-                coordinates.add(pos);
                 board.placeShip(pos, s, vertical);
             }
         }
@@ -87,6 +86,7 @@ public class OurPlayer2 implements battleship.interfaces.BattleshipsPlayer {
                 if (enemyFleet == enemyFleet2) {
                     hitShot = killShot1.get(0);
                     killShot1.remove(0);
+                    System.out.println(hitShot.toString());
                     return hitShot;
                 }
             }
