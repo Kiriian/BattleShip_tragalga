@@ -81,13 +81,12 @@ public class OurPlayer2 implements battleship.interfaces.BattleshipsPlayer {
     @Override
     public Position getFireCoordinates(Fleet enemyShips) {
         Position hitShot;
+        Position shot = new Position(corX, corY);
         if (lastHit == true || beforeLastHit == true) {
             if (killShot1.size() > 0) {
                 if (enemyFleet == enemyFleet2) {
                     hitShot = killShot1.get(0);
                     killShot1.remove(0);
-                    System.out.println("her fjerne vi et element fra arrayet: " + killShot1.size());
-                    System.out.println("skud " + hitShot.toString());
                     return hitShot;
                 }
             }
@@ -104,11 +103,12 @@ public class OurPlayer2 implements battleship.interfaces.BattleshipsPlayer {
                 }
                 corX = corX + 1;
             }
-            Position shot = new Position(corX, corY);
+            shot = new Position(corX, corY);
             System.out.println("else skud" + shot.toString());
             return shot;
         }
-        return null;
+        System.out.println("Hvorfor er vi her? " + lastHit);
+        return shot;
     }
 
     public ArrayList<Position> getCoordinates() {
@@ -151,26 +151,6 @@ public class OurPlayer2 implements battleship.interfaces.BattleshipsPlayer {
             killShot1.add(new Position(corX, corY));
         }
 
-//        if (corX - 1 < sizeX) {
-//            killShot1.add(new Position(0, corY));
-//        } else {
-//            killShot1.add(new Position(corX - 1, corY));
-//        }
-//        if (sizeX < corX + 1) {
-//            killShot1.add(new Position(9, corY));
-//        } else {
-//            killShot1.add(new Position(corX + 1, corY));
-//        }
-//        if (corY - 1 < sizeY) {
-//            killShot1.add(new Position(corX, 0));
-//        } else {
-//            killShot1.add(new Position(corX, corY - 1));
-//        }
-//        if (corY + 1 > sizeY) {
-//            killShot1.add(new Position(corX, 9));
-//        } else {
-//            killShot1.add(new Position(corX, corY + 1));
-//        }
         return killShot1;
 
     }
@@ -183,14 +163,12 @@ public class OurPlayer2 implements battleship.interfaces.BattleshipsPlayer {
             this.beforeLastHit = this.lastHit;
             this.lastHit = hit;
             killShot1 = killWounded(corX, corY);
-            //System.out.println("størrelse af array i nummer et: " + killShot1.size());
         }
 
         if (!hit && !this.lastHit && this.beforeLastHit) {
             enemyFleet2 = enemyShips.getNumberOfShips();
             this.beforeLastHit = this.lastHit;
             this.lastHit = hit;
-            //System.out.println("størrelse af array i nummer fem: " + killShot1.size());
         }
 
         if (!hit && this.lastHit) {
@@ -198,19 +176,16 @@ public class OurPlayer2 implements battleship.interfaces.BattleshipsPlayer {
             enemyFleet2 = enemyFleet;
             this.beforeLastHit = this.lastHit;
             this.lastHit = hit;
-            //System.out.println("størrelse af array i nummer fire: " + killShot1.size());
         }
 
         if (hit && !this.lastHit && !this.beforeLastHit) {
             this.beforeLastHit = this.lastHit;
             this.lastHit = hit;
-            //System.out.println("størrelse af array i nummer tre: " + killShot1.size());
         }
 
         if (hit && this.lastHit && !this.beforeLastHit) {
             this.beforeLastHit = this.lastHit;
             this.lastHit = hit;
-            //System.out.println("størrelse af array i nummer to: " + killShot1.size());
         }
     }
 
