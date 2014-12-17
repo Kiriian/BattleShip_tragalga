@@ -117,28 +117,60 @@ public class OurPlayer2 implements battleship.interfaces.BattleshipsPlayer {
 
     public ArrayList<Position> killWounded(int corX, int corY) {
         killShot1.clear();
+        int tempX1 = corX;
+        int tempX2 = corX;
+        int tempY1 = corY;
+        int tempY2 = corY;
 
-        if (corX - 1 < sizeX) {
-            killShot1.add(new Position(0, corY));
+        tempX1 = tempX1 - 1;
+        tempX2 = tempX2 + 2;
+        tempY1 = tempY1 - 1;
+        tempY2 = tempY2 + 1;
+
+        if (tempX1 >= sizeX) {
+            killShot1.add(new Position(tempX1, corY));
         } else {
-            killShot1.add(new Position(corX - 1, corY));
-        }
-        if (sizeX < corX + 1) {
-            killShot1.add(new Position(9, corY));
-        } else {
-            killShot1.add(new Position(corX + 1, corY));
-        }
-        if (corY - 1 < sizeY) {
-            killShot1.add(new Position(corX, 0));
-        } else {
-            killShot1.add(new Position(corX, corY - 1));
-        }
-        if (corY + 1 > sizeY) {
-            killShot1.add(new Position(corX, 9));
-        } else {
-            killShot1.add(new Position(corX, corY + 1));
+            killShot1.add(new Position(corX, corY));
         }
 
+        if (tempX2 <= sizeX) {
+            killShot1.add(new Position(tempX2, corY));
+        } else {
+            killShot1.add(new Position(corX, corY));
+        }
+
+        if (tempY1 >= sizeY) {
+            killShot1.add(new Position(corX, tempY1));
+        } else {
+            killShot1.add(new Position(corX, corY));
+        }
+
+        if (tempY2 <= sizeY) {
+            killShot1.add(new Position(corX, tempY2));
+        } else {
+            killShot1.add(new Position(corX, corY));
+        }
+
+//        if (corX - 1 < sizeX) {
+//            killShot1.add(new Position(0, corY));
+//        } else {
+//            killShot1.add(new Position(corX - 1, corY));
+//        }
+//        if (sizeX < corX + 1) {
+//            killShot1.add(new Position(9, corY));
+//        } else {
+//            killShot1.add(new Position(corX + 1, corY));
+//        }
+//        if (corY - 1 < sizeY) {
+//            killShot1.add(new Position(corX, 0));
+//        } else {
+//            killShot1.add(new Position(corX, corY - 1));
+//        }
+//        if (corY + 1 > sizeY) {
+//            killShot1.add(new Position(corX, 9));
+//        } else {
+//            killShot1.add(new Position(corX, corY + 1));
+//        }
         return killShot1;
 
     }
