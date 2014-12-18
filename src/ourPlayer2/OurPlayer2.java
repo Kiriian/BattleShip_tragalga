@@ -26,8 +26,8 @@ public class OurPlayer2 implements battleship.interfaces.BattleshipsPlayer {
     private int corX;
     private int corY;
     ArrayList<Position> coordinates = new ArrayList<>();
-    private boolean lastHit = false;
-    private boolean beforeLastHit = false;
+    private boolean lastHit;
+    private boolean beforeLastHit;
     private int enemyFleet;
     private int enemyFleet2;
     ArrayList<Position> killShot1 = new ArrayList<>();
@@ -42,11 +42,12 @@ public class OurPlayer2 implements battleship.interfaces.BattleshipsPlayer {
         corX = 0;
         corY = 0;
 
+        lastHit = false;
+        beforeLastHit = false;
     }
 
     @Override
     public void placeShips(Fleet fleet, Board board) {
-        getCoordinates();
         nextX = 0;
         nextY = 0;
         sizeX = board.sizeX();
@@ -79,12 +80,13 @@ public class OurPlayer2 implements battleship.interfaces.BattleshipsPlayer {
 
     @Override
     public Position getFireCoordinates(Fleet enemyShips) {
-        Position hitShot;
         Position shot = new Position(corX, corY);
+
         if (lastHit == true || beforeLastHit == true) {
+            System.out.println("bliver den tom og så kommer vi der ned? " + killShot1.size());
             if (killShot1.size() > 0) {
                 if (enemyFleet == enemyFleet2) {
-                    hitShot = killShot1.get(0);
+                    Position hitShot = killShot1.get(0);
                     killShot1.remove(0);
                     System.out.println(hitShot.toString());
                     return hitShot;
@@ -107,12 +109,20 @@ public class OurPlayer2 implements battleship.interfaces.BattleshipsPlayer {
             System.out.println("else skud" + shot.toString());
             return shot;
         }
-        System.out.println("Hvorfor er vi her? " + lastHit);
+        corY = corY + 2;
+        if (corY >= sizeY) {
+            if (corY == 10) {
+                corY = 1;
+            } else {
+                corY = 0;
+            }
+            if (corX >= sizeX - 1) {
+                corX = 0;
+            }
+            corX = corX + 1;
+        }
+        shot = new Position(corX, corY);
         return shot;
-    }
-
-    public ArrayList<Position> getCoordinates() {
-        return coordinates;
     }
 
     public ArrayList<Position> killWounded(int corX, int corY) {
@@ -158,11 +168,18 @@ public class OurPlayer2 implements battleship.interfaces.BattleshipsPlayer {
     @Override
     public void hitFeedBack(boolean hit, Fleet enemyShips) {
         if (hit && !this.lastHit && !this.beforeLastHit) {
+            if (killShot1.isEmpty()) {
+                killShot1 = killWounded(corX, corY);
+            }
             enemyFleet = enemyShips.getNumberOfShips();
             enemyFleet2 = enemyFleet;
             this.beforeLastHit = this.lastHit;
             this.lastHit = hit;
-            killShot1 = killWounded(corX, corY);
+        }
+        if (!hit && this.lastHit && !this.beforeLastHit) {
+            enemyFleet = enemyShips.getNumberOfShips();
+            this.beforeLastHit = this.lastHit;
+            this.lastHit = hit;
         }
 
         if (!hit && !this.lastHit && this.beforeLastHit) {
@@ -171,22 +188,26 @@ public class OurPlayer2 implements battleship.interfaces.BattleshipsPlayer {
             this.lastHit = hit;
         }
 
-        if (!hit && this.lastHit) {
-            enemyFleet = enemyShips.getNumberOfShips();
-            enemyFleet2 = enemyFleet;
-            this.beforeLastHit = this.lastHit;
-            this.lastHit = hit;
-        }
-
         if (hit && !this.lastHit && !this.beforeLastHit) {
+            enemyFleet = enemyShips.getNumberOfShips();
             this.beforeLastHit = this.lastHit;
             this.lastHit = hit;
         }
 
         if (hit && this.lastHit && !this.beforeLastHit) {
+            enemyFleet = enemyShips.getNumberOfShips();
             this.beforeLastHit = this.lastHit;
             this.lastHit = hit;
         }
+
+        if (hit && this.lastHit && this.beforeLastHit) {
+            enemyFleet = enemyShips.getNumberOfShips();
+            this.beforeLastHit = this.lastHit;
+            this.lastHit = hit;
+        }
+        this.beforeLastHit = hit;
+        this.lastHit = hit;
+
     }
 
     @Override
